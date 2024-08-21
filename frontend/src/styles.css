@@ -1,0 +1,107 @@
+/* src/styles.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+}
+
+.header {
+    background-color: #6246ea;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.header h1 {
+    font-size: 24px;
+}
+
+.header nav {
+    display: flex;
+    gap: 10px;
+}
+
+.header .login-button, .header .join-now-button {
+    background-color: #6246ea;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.header .join-now-button {
+    background-color: #5c31d6;
+}
+
+.main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.blog-list, .blog-detail {
+    width: 100%;
+    max-width: 900px;
+}
+
+.blog-card {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+}
+
+.blog-card h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.blog-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+.create-blog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.create-blog input, .create-blog textarea {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.create-blog button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #6246ea;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
