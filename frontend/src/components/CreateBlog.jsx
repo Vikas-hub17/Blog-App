@@ -52,13 +52,46 @@ const SubmitButton = styled.button`
   }
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+`;
+
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!title.trim()) {
+      newErrors.title = 'Title is required';
+    }
+
+    if (!content.trim()) {
+      newErrors.content = 'Content is required';
+    }
+
+    return newErrors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      // Handle form submission (e.g., send data to server)
+      console.log('Form submitted successfully with:', { title, content });
+
+      // Clear form fields after successful submission
+      setTitle('');
+      setContent('');
+      setErrors({});
+    }
   };
 
   return (
@@ -66,20 +99,22 @@ const CreateBlog = () => {
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="title">Title</Label>
-          <Input 
-            id="title" 
-            value={title} 
-            onChange={(e) => setTitle(e.target.value)} 
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
+          {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
         </FormGroup>
         <FormGroup>
           <Label htmlFor="content">Content</Label>
-          <TextArea 
-            id="content" 
-            rows="8" 
-            value={content} 
-            onChange={(e) => setContent(e.target.value)} 
+          <TextArea
+            id="content"
+            rows="8"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
+          {errors.content && <ErrorMessage>{errors.content}</ErrorMessage>}
         </FormGroup>
         <SubmitButton type="submit">Create Blog Post</SubmitButton>
       </form>
