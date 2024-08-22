@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getPosts } from '../api';
 import { Link } from 'react-router-dom';
 import { BlogListContainer, BlogItem, BlogTitle, BlogExcerpt } from './styles';
