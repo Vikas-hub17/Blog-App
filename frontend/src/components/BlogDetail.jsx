@@ -22,9 +22,11 @@ const BlogContent = styled.div`
   line-height: 1.6;
 `;
 
-const BlogDetail = ({ blogPosts }) => {
+const BlogDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -32,21 +34,23 @@ const BlogDetail = ({ blogPosts }) => {
         const data = await getPostById(id);
         setPost(data);
       } catch (error) {
-        console.error('Failed to fetch post', error);
+        setError('Failed to load post');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPost();
   }, [id]);
 
-  if (!post) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <BlogDetailContainer>
-      <BlogTitle>{post.title}</BlogTitle>
-      <BlogContent>{post.content}</BlogContent>
-    </BlogDetailContainer>
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </div>
   );
-}
-
+};
 export default BlogDetail;

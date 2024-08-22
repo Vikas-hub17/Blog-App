@@ -62,62 +62,48 @@ const ErrorMessage = styled.p`
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const newErrors = {};
-
-    if (!title.trim()) {
-      newErrors.title = 'Title is required';
-    }
-
-    if (!content.trim()) {
-      newErrors.content = 'Content is required';
-    }
-
-    return newErrors;
-  };
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const newPost = { title, content };
-      await createPost(newPost);
-      alert('Blog post created successfully!');
-      // Reset form
+      await createPost({ title, content });
       setTitle('');
       setContent('');
     } catch (error) {
-      console.error('Failed to create post', error);
-      alert('Error creating post');
+      setError('Failed to create post');
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
     <FormWrapper>
       <form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+        {error && <p>{error}</p>}
+        <div>
+          <label htmlFor="title">Title</label>
+          <input 
+            id="title" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
           />
-          {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="content">Content</Label>
-          <TextArea
-            id="content"
-            rows="8"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+        </div>
+        <div>
+          <label htmlFor="content">Content</label>
+          <textarea 
+            id="content" 
+            rows="8" 
+            value={content} 
+            onChange={(e) => setContent(e.target.value)} 
           />
-          {errors.content && <ErrorMessage>{errors.content}</ErrorMessage>}
-        </FormGroup>
-        <SubmitButton type="submit">Create Blog Post</SubmitButton>
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Creating...' : 'Create Blog Post'}
+        </button>
       </form>
     </FormWrapper>
   );
 };
-
-export default CreateBlog;
