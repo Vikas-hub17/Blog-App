@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getPostById } from '../api';
 
 const BlogDetailContainer = styled.div`
   max-width: 800px;
@@ -23,11 +24,22 @@ const BlogContent = styled.div`
 
 const BlogDetail = ({ blogPosts }) => {
   const { id } = useParams();
-  const post = blogPosts.find(post => post.id === parseInt(id));
+  const [post, setPost] = useState(null);
 
-  if (!post) {
-    return <BlogDetailContainer>Post not found</BlogDetailContainer>;
-  }
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const data = await getPostById(id);
+        setPost(data);
+      } catch (error) {
+        console.error('Failed to fetch post', error);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  if (!post) return <p>Loading...</p>;
 
   return (
     <BlogDetailContainer>

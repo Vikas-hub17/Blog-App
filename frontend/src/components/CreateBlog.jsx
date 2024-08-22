@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { createPost } from '../api';
 
 const FormWrapper = styled.div`
   padding: 40px;
@@ -77,23 +78,20 @@ const CreateBlog = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-    } else {
-      // Handle form submission (e.g., send data to server)
-      console.log('Form submitted successfully with:', { title, content });
-
-      // Clear form fields after successful submission
+    try {
+      const newPost = { title, content };
+      await createPost(newPost);
+      alert('Blog post created successfully!');
+      // Reset form
       setTitle('');
       setContent('');
-      setErrors({});
+    } catch (error) {
+      console.error('Failed to create post', error);
+      alert('Error creating post');
     }
   };
-
   return (
     <FormWrapper>
       <form onSubmit={handleSubmit}>
