@@ -6,20 +6,36 @@ import { getPostById } from '../api';
 const BlogDetailContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 40px;
+  background-color: #ffffff; /* Ensure a white background for the content area */
+  border-radius: 8px; /* Adds rounded corners for a modern look */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 `;
 
 const BlogTitle = styled.h1`
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
-  color: #111827;
-  margin-bottom: 16px;
+  color: #111827; /* Dark color for high contrast */
+  margin-bottom: 24px;
 `;
 
 const BlogContent = styled.div`
   font-size: 18px;
-  color: #4b5563;
-  line-height: 1.6;
+  color: #4B5563; /* Subtle gray for the text content */
+  line-height: 1.8; /* Increased line height for readability */
+  letter-spacing: 0.5px; /* Slight letter spacing for a clean look */
+`;
+
+const LoadingMessage = styled.p`
+  font-size: 18px;
+  text-align: center;
+  color: #4B5563;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 18px;
+  text-align: center;
+  color: red;
 `;
 
 const BlogDetail = () => {
@@ -43,14 +59,15 @@ const BlogDetail = () => {
     fetchPost();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <LoadingMessage>Loading...</LoadingMessage>;
+  if (error) return <ErrorMessage>{error}</ErrorMessage>;
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-    </div>
+    <BlogDetailContainer>
+      <BlogTitle>{post.title}</BlogTitle>
+      <BlogContent>{post.content}</BlogContent>
+    </BlogDetailContainer>
   );
 };
+
 export default BlogDetail;

@@ -13,10 +13,13 @@ const MainContent = styled.main`
 `;
 
 const Footer = styled.footer`
-  background-color: #ffffff;
+  background-color: #F7FAFC; /* Light background for the footer */
   padding: 20px;
   text-align: center;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #E2E8F0;
+  color: #4A5568; /* Muted color for text */
+  font-size: 14px; /* Slightly smaller text for the footer */
+  box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
 `;
 
 const Layout = ({ children }) => {
