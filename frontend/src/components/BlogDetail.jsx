@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPostById } from '../api';
+import CommentSection from './CommentSection';
 
 const BlogDetailContainer = styled.div`
   max-width: 800px;
@@ -66,6 +67,7 @@ const BlogDetail = () => {
     <BlogDetailContainer>
       <BlogTitle>{post.title}</BlogTitle>
       <BlogContent>{post.content}</BlogContent>
+      <CommentSection postId={id} />
     </BlogDetailContainer>
   );
 };

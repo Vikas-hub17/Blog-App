@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getPosts } from '../api';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import SearchBar from './SearchBar';
 
 // Styled Components
 const BlogListContainer = styled.div`
@@ -64,6 +65,7 @@ const BlogList = () => {
   return (
     <BlogListContainer>
       <h1>Blog Posts</h1>
+      <SearchBar onSearch={handleSearch} />
       <ul>
         {posts.map(post => (
           <BlogItem key={post.id}>
