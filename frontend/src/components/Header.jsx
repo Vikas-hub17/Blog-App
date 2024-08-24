@@ -1,20 +1,23 @@
-import React from 'react';
+// src/components/Header.js
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
+import Login from './Login';
+import SignUp from './SignUp';
 
 const HeaderWrapper = styled.header`
-  background-color: #F7FAFC; /* Light background for a clean look */
+  background-color: #F7FAFC;
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #E2E8F0;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 `;
 
 const Logo = styled.h1`
-  font-size: 28px; /* Slightly larger for emphasis */
-  color: #2D3748; /* Darker shade for strong contrast */
+  font-size: 28px;
+  color: #2D3748;
   font-weight: 700;
   margin: 0;
 `;
@@ -22,21 +25,21 @@ const Logo = styled.h1`
 const Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: 25px; /* Increased gap for better spacing */
+  gap: 25px;
 `;
 
 const NavLink = styled.a`
-  color: #4A5568; /* Muted color for links */
+  color: #4A5568;
   font-weight: 500;
   text-decoration: none;
   font-size: 16px;
 
   &:hover {
-    color: #2D3748; /* Darker on hover for clarity */
+    color: #2D3748;
   }
 `;
 
-const button = styled.button`
+const Button = styled.button`
   background-color: ${(props) => (props.primary ? "#5A67D8" : "#E2E8F0")};
   color: ${(props) => (props.primary ? "#ffffff" : "#5A67D8")};
   border: none;
@@ -48,13 +51,15 @@ const button = styled.button`
   
   &:hover {
     opacity: 0.9;
-    transform: translateY(-1px); /* Slight lift on hover */
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+    transform: translateY(-1px);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   }
 `;
 
 const Header = () => {
   const { currentUser } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
 
   return (
     <HeaderWrapper>
@@ -66,11 +71,13 @@ const Header = () => {
           <p>Welcome, {currentUser.email}</p>
         ) : (
           <>
-            <button onClick={() => window.location.href='/login'}>Login</button>
-            <button onClick={() => window.location.href='/signup'}>Join Now</button>
+            <Button primary onClick={() => setShowLogin(true)}>Login</Button>
+            <Button onClick={() => setShowSignUp(true)}>Join Now</Button>
           </>
         )}
       </Nav>
+      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showSignUp && <SignUp onClose={() => setShowSignUp(false)} />}
     </HeaderWrapper>
   );
 };

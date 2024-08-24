@@ -1,27 +1,51 @@
 // src/components/SignUp.js
-import React, { useState } from 'react';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React from 'react';
+import Modal from './Modal';
+import styled from 'styled-components';
 
-const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
 
-  const handleSignUp = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error(error.message);
-    }
+const Input = styled.input`
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #E2E8F0;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #5A67D8;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
+const SignUp = ({ onClose }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Implement signup logic here
   };
 
   return (
-    <div>
+    <Modal onClose={onClose}>
       <h2>Join Now</h2>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <button onClick={handleSignUp}>Join Now</button>
-    </div>
+      <Form onSubmit={handleSubmit}>
+        <Input type="text" placeholder="Full Name" required />
+        <Input type="email" placeholder="Email" required />
+        <Input type="password" placeholder="Password" required />
+        <SubmitButton type="submit">Sign Up</SubmitButton>
+      </Form>
+    </Modal>
   );
 };
 
