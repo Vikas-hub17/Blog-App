@@ -2,47 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { getPosts } from '../api';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchBar from './SearchBar';
 
-// Styled Components
 const BlogListContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px;
-  background-color: #ffffff; /* White background for the blog list */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 20px;
+  background-color: #f9fafb;
 `;
 
-const BlogItem = styled.li`
-  list-style: none;
-  margin-bottom: 32px; /* Space between blog posts */
-  padding-bottom: 16px; /* Padding at the bottom */
-  border-bottom: 1px solid #e2e8f0; /* Light border to separate posts */
+const StyledSearchBar = styled.input`  // Renamed from 'SearchBar' to 'StyledSearchBar'
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border: 1px solid #CBD5E0;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #4A5568;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: none;
+    border-color: #5A67D8;
+  }
+`;
+
+const BlogListItem = styled.li`
+  margin-bottom: 20px;
 `;
 
 const BlogTitle = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  color: #2d3748; /* Darker color for high contrast */
+  color: #2D3748;
   margin-bottom: 8px;
-  cursor: pointer;
-
-  &:hover {
-    color: #5A67D8; /* Change color on hover */
-  }
 `;
 
 const BlogExcerpt = styled.p`
   font-size: 16px;
-  color: #4b5563; /* Subtle gray color for the excerpt */
-  line-height: 1.6;
+  color: #4A5568;
 `;
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -59,23 +63,40 @@ const BlogList = () => {
     fetchPosts();
   }, []);
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.content.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <BlogListContainer>
-      <h1>Blog Posts</h1>
-      <SearchBar onSearch={handleSearch} />
+      <StyledSearchBar
+        type="text"
+        placeholder="Search posts..."
+        value={searchQuery}
+        onChange={handleSearch}
+      />
+      {/* Render the rest of the UI based on conditions */}
+    {loading && <p>Loading...</p>}
+    {error && <p>{error}</p>}
+    {!loading && !error && (
       <ul>
-        {posts.map(post => (
-          <BlogItem key={post.id}>
-            <Link to={`/blog/${post.id}`}>
-              <BlogTitle>{post.title}</BlogTitle>
-            </Link>
+        {filteredPosts.map((post) => (
+          <BlogListItem key={post.id}>
+            <BlogTitle>{post.title}</BlogTitle>
             <BlogExcerpt>{post.content.substring(0, 100)}...</BlogExcerpt>
-          </BlogItem>
+            <Link to={`/blog/${post.id}`}>Read more</Link>
+          </BlogListItem>
         ))}
       </ul>
+      )}
     </BlogListContainer>
   );
 };

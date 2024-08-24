@@ -52,3 +52,14 @@ export const deletePost = async (id) => {
     throw error;
   }
 };
+
+export const getComments = async (postId) => {
+  const response = await axios.get(`${API_URL}/posts/${postId}/comments`);
+  return response.data;
+};
+
+// Add a new comment to a post
+export const addComment = async (postId, commentData) => {
+  const response = await axios.post(`${API_URL}/posts/${postId}/comments`, commentData);
+  return response.data;
+};

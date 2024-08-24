@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAuth } from '../contexts/AuthContext';
 
 const HeaderWrapper = styled.header`
   background-color: #F7FAFC; /* Light background for a clean look */
@@ -35,7 +36,7 @@ const NavLink = styled.a`
   }
 `;
 
-const Button = styled.button`
+const button = styled.button`
   background-color: ${(props) => (props.primary ? "#5A67D8" : "#E2E8F0")};
   color: ${(props) => (props.primary ? "#ffffff" : "#5A67D8")};
   border: none;
@@ -53,14 +54,22 @@ const Button = styled.button`
 `;
 
 const Header = () => {
+  const { currentUser } = useAuth();
+
   return (
     <HeaderWrapper>
       <Logo>ZuAI</Logo>
       <Nav>
         <NavLink href="/">Home</NavLink>
         <NavLink href="/create">Create Blog</NavLink>
-        <Button>Login</Button>
-        <Button primary>Join Now</Button>
+        {currentUser ? (
+          <p>Welcome, {currentUser.email}</p>
+        ) : (
+          <>
+            <button onClick={() => window.location.href='/login'}>Login</button>
+            <button onClick={() => window.location.href='/signup'}>Join Now</button>
+          </>
+        )}
       </Nav>
     </HeaderWrapper>
   );

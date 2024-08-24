@@ -5,6 +5,10 @@ import BlogDetail from '../src/components/BlogDetail';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CreateBlog from './components/CreateBlog';
+import PrivateRoute from './routes/PrivateRoute';
+import Home from './pages/Home';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 const blogPosts = [
   {
@@ -37,6 +41,8 @@ const App = () => {
       <Route path="/create" element={<CreateBlog/>} />
         <Route path="/" element={<BlogList blogPosts={blogPosts} />} />
         <Route path="/blog/:id" element={<BlogDetail blogPosts={blogPosts} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       </main>
       <Footer />

@@ -72,6 +72,40 @@ app.delete('/posts/:id', async (req, res) => {
   }
 });
 
+let posts = [
+  // Sample posts
+  { id: 1, title: 'Post 1', content: 'Content 1', comments: [] },
+  { id: 2, title: 'Post 2', content: 'Content 2', comments: [] },
+];
+
+// Fetch comments for a specific post
+app.get('/posts/:postId/comments', (req, res) => {
+  const postId = parseInt(req.params.postId);
+  const post = posts.find((p) => p.id === postId);
+  if (post) {
+    res.json(post.comments);
+  } else {
+    res.status(404).json({ message: 'Post not found' });
+  }
+});
+
+// Add a comment to a specific post
+app.post('/posts/:postId/comments', (req, res) => {
+  const postId = parseInt(req.params.postId);
+  const post = posts.find((p) => p.id === postId);
+  if (post) {
+    const comment = {
+      id: post.comments.length + 1,
+      content: req.body.content,
+      author: req.body.author,
+    };
+    post.comments.push(comment);
+    res.status(201).json(comment);
+  } else {
+    res.status(404).json({ message: 'Post not found' });
+  }
+});
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
