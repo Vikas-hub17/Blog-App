@@ -42,6 +42,25 @@ const BlogExcerpt = styled.p`
   color: #4A5568;
 `;
 
+const blogPosts = [
+  {
+    id: 1,
+    title: 'Why should I use Flashcards for revision?',
+    excerpt: 'Flashcards are a great way to reinforce learning, improve recall, and boost exam performance...',
+  },
+  {
+    id: 2,
+    title: 'How to create effective study schedules',
+    excerpt: 'Creating a study schedule that works for you is key to maximizing your study time...',
+  },
+  {
+    id: 3,
+    title: 'Top 10 tips for exam preparation',
+    excerpt: 'From managing your time to practicing past papers, these tips will help you ace your exams...',
+  },
+];
+
+
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,6 +109,7 @@ const BlogList = () => {
       <ul>
         {filteredPosts.map((post) => (
           <BlogListItem key={post.id}>
+            
             <BlogTitle>{post.title}</BlogTitle>
             <BlogExcerpt>{post.content.substring(0, 100)}...</BlogExcerpt>
             <Link to={`/blog/${post.id}`}>Read more</Link>
@@ -97,6 +117,7 @@ const BlogList = () => {
         ))}
       </ul>
       )}
+      
     </BlogListContainer>
   );
 };
