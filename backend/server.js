@@ -6,6 +6,18 @@ require('dotenv').config();
 
 const app = express();
 
+const Item = require("./models/Post"); // Create the Item model
+
+app.get("/api/Post", async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.json(items);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
+
 // Connect to Database
 connectDB();
 
