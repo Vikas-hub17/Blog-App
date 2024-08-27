@@ -18,13 +18,17 @@ export const getPosts = async () => {
 
 export const getPostById = async (id) => {
   try {
-    const response = await apiClient.get(`/posts/${id}`);
-    return response.data;
+      const response = await fetch(`/api/posts/${id}`);
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
   } catch (error) {
-    throw new Error('Failed to fetch the post');
+      console.error("Failed to fetch post:", error);
+      throw error;
   }
 };
-
 export const createPost = async (post) => {
   try {
     const response = await apiClient.post('/posts', post);

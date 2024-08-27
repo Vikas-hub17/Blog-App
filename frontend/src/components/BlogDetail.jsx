@@ -49,18 +49,19 @@ const BlogDetail = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      try {
-        const data = await getPostById(id);
-        setPost(data);
-      } catch (error) {
-        setError('Failed to load post');
-      } finally {
-        setLoading(false);
-      }
+        try {
+            const data = await getPostById(id);
+            setPost(data);
+        } catch (error) {
+            console.error('Error fetching post:', error); // Improved error logging
+            setError('Failed to load post');
+        } finally {
+            setLoading(false);
+        }
     };
 
     fetchPost();
-  }, [id]);
+}, [id]);
 
   const handleCommentAdded = (newComment) => {
     setComments((prevComments) => [...prevComments, newComment]);
