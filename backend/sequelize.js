@@ -1,14 +1,9 @@
 const { Sequelize } = require('sequelize');
-const config = require('./config/config.json');
 
-const sequelize = new Sequelize(
-  config.development.database,
-  config.development.username,
-  config.development.password,
-  {
-    host: config.development.host,
-    dialect: config.development.dialect,
-  }
-);
+// Initialize Sequelize
+const sequelize = new Sequelize('blogdb', 'my_user', 'root', {
+  host: 'localhost',
+  dialect: 'postgres',
+});
 
 module.exports = sequelize;

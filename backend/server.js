@@ -1,16 +1,21 @@
 const express = require('express');
 const sequelize = require('./sequelize');
-const postRoutes = require('./routes/postRoutes');
+const Post = require('./models/Post');
 
 const app = express();
 
 app.use(express.json());
-app.use('/api', postRoutes);
 
-const PORT = process.env.PORT || 3000;
+sequelize.sync({ force: true }).then(() => {
+  console.log('Database synced');
 
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  // Start the server after the database sync is complete
+  app.listen(3000, () => {
+    console.log('Server is running on port 3000');
   });
+});
+
+// Example route
+app.get('/', (req, res) => {
+  res.send('Hello World!');
 });
