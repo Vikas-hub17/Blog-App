@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { createPost } from '../api';
+import { createPost } from '../api/api';
 
 const FormWrapper = styled.div`
   padding: 40px;

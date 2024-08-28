@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPosts } from '../api';
+import { getPosts } from '../api/api';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
