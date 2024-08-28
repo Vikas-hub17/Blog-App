@@ -1,4 +1,3 @@
-// src/api.js
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3000'; // Adjust this if your backend runs on a different URL or port
@@ -54,12 +53,21 @@ export const deletePost = async (id) => {
 };
 
 export const getComments = async (postId) => {
-  const response = await axios.get(`${API_URL}/posts/${postId}/comments`);
-  return response.data;
+  try {
+    const response = await axios.get(`${API_URL}/posts/${postId}/comments`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw error;
+  }
 };
 
-// Add a new comment to a post
 export const addComment = async (postId, commentData) => {
-  const response = await axios.post(`${API_URL}/posts/${postId}/comments`, commentData);
-  return response.data;
+  try {
+    const response = await axios.post(`${API_URL}/posts/${postId}/comments`, commentData);
+    return response.data;
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    throw error;
+  }
 };
