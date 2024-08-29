@@ -10,7 +10,7 @@ const BlogListContainer = styled.div`
   background-color: #f9fafb;
 `;
 
-const StyledSearchBar = styled.input`  // Renamed from 'SearchBar' to 'StyledSearchBar'
+const StyledSearchBar = styled.input`
   width: 100%;
   padding: 12px 20px;
   margin-bottom: 20px;
@@ -42,24 +42,19 @@ const BlogExcerpt = styled.p`
   color: #4A5568;
 `;
 
-const blogPosts = [
+const fallbackPosts = [
   {
     id: 1,
-    title: 'Why should I use Flashcards for revision?',
-    excerpt: 'Flashcards are a great way to reinforce learning, improve recall, and boost exam performance...',
+    title: 'Fallback Post 1',
+    content: 'This is a fallback post that shows up when the API call fails. It contains default content to ensure that users have something to read.',
   },
   {
     id: 2,
-    title: 'How to create effective study schedules',
-    excerpt: 'Creating a study schedule that works for you is key to maximizing your study time...',
+    title: 'Fallback Post 2',
+    content: 'Here is another fallback post. It serves as a placeholder for the real data that would normally be fetched from the server.',
   },
-  {
-    id: 3,
-    title: 'Top 10 tips for exam preparation',
-    excerpt: 'From managing your time to practicing past papers, these tips will help you ace your exams...',
-  },
+  // Add more fallback posts as needed
 ];
-
 
 const BlogList = () => {
   const [posts, setPosts] = useState([]);
@@ -74,13 +69,14 @@ const BlogList = () => {
         setPosts(data);
       } catch (error) {
         setError('Failed to load posts');
+        setPosts(fallbackPosts); // Use fallback posts if API fails
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
-  }, []);
+  }, []); // Dependency array remains empty
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -102,22 +98,15 @@ const BlogList = () => {
         value={searchQuery}
         onChange={handleSearch}
       />
-      {/* Render the rest of the UI based on conditions */}
-    {loading && <p>Loading...</p>}
-    {error && <p>{error}</p>}
-    {!loading && !error && (
       <ul>
         {filteredPosts.map((post) => (
           <BlogListItem key={post.id}>
-            
             <BlogTitle>{post.title}</BlogTitle>
             <BlogExcerpt>{post.content.substring(0, 100)}...</BlogExcerpt>
             <Link to={`/blog/${post.id}`}>Read more</Link>
           </BlogListItem>
         ))}
       </ul>
-      )}
-      
     </BlogListContainer>
   );
 };
