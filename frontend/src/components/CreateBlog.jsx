@@ -59,7 +59,7 @@ const ErrorMessage = styled.p`
   margin-top: 8px;
 `;
 
-const CreateBlog = () => {
+const CreateBlog = ({addNewPost}) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
@@ -70,8 +70,10 @@ const CreateBlog = () => {
     setLoading(true);
     setError(null);
     
+   
     try {
-      await createPost({ title, content });
+      const newPost = await createPost({ title, content });
+      addNewPost(newPost); // Add the newly created post to the list
       setTitle('');
       setContent('');
     } catch (error) {
